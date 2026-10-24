@@ -1,36 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { CreateCourseDto } from './dto/course.create.dto';
+import { UpdateCourseDto } from './dto/course.update.dto';
 
-// Marks this class as a service that NestJS can inject into other classes.
 @Injectable()
 export class CourseService {
-
-  // Returns a message representing all courses.
-  getAllCourses(): string {
-    return 'Get All Courses - from Service';
+  getAllCourses() {
+    return { message: 'All courses fetched successfully', data: [] };
   }
 
-  // Returns a message for a specific course using its ID.
-  getCourseById(id: string): string {
-    return `Get Course with ID: ${id} - from Service`;
+  getCourseById(id: string) {
+    return { message: 'Course fetched successfully', id };
   }
 
-  // Returns a message representing the creation of a new course.
-  createCourse(): string {
-    return 'Create Course - from Service';
+  createCourse(dto: CreateCourseDto) {
+    return { message: 'Course created successfully', data: dto };
   }
 
-  // Returns a message representing the update of an existing course.
-  updateCourse(id: string): string {
-    return `Update Course ${id} - from Service`;
+  updateCourse(id: string, dto: UpdateCourseDto) {
+    return { message: 'Course updated successfully', id, data: dto };
   }
 
-  // Returns a message representing a partial update of a course.
-  patchCourse(id: string): string {
-    return `Patch Course ${id} - from Service`;
+  patchCourse(id: string, dto: UpdateCourseDto) {
+    return {
+      message: 'Course patched successfully',
+      id,
+      updatedFields: Object.keys(dto),
+    };
   }
 
-  // Returns a message representing the deletion of a course.
-  deleteCourse(id: string): string {
-    return `Delete Course ${id} - from Service`;
+  deleteCourse(id: string) {
+    return { message: 'Course deleted successfully', id };
+  }
+
+  uploadCourseMaterial(id: string, file: Express.Multer.File) {
+    return {
+      message: 'Material uploaded successfully',
+      courseId: id,
+      filename: file.filename,
+      path: `uploads/${file.filename}`,
+    };
   }
 }
